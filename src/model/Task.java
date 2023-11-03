@@ -1,10 +1,10 @@
 package model;
 
 public class Task {
-    private int id;
-    private String name;
-    private String description;
-    private State state;
+    protected int id;
+    protected String name;
+    protected String description;
+    protected State state;
 
     public Task(String name, String description, State state) {
         this.name = name;

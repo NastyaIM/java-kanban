@@ -1,8 +1,8 @@
-import model.*;
-import service.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import model.Epic;
+import model.State;
+import model.Subtask;
+import model.Task;
+import service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,13 +18,14 @@ public class Main {
 
         Subtask subtask1 = new Subtask("Sb1", "Dsb1", State.NEW, epic1.getId());
         Subtask subtask2 = new Subtask("Sb2", "Dsb2", State.NEW, epic1.getId());
-        taskManager.addSubtask(new ArrayList<>(Arrays.asList(subtask1, subtask2)), epic1.getId());
+        taskManager.addSubtask(subtask1, epic1.getId());
+        taskManager.addSubtask(subtask2, epic1.getId());
 
         Epic epic2 = new Epic("E2", "De2");
         taskManager.addEpic(epic2);
 
         Subtask subtask3 = new Subtask("Sb3", "Dsb3", State.DONE, epic2.getId());
-        taskManager.addSubtask(new ArrayList<>(Arrays.asList(subtask3)), epic2.getId());
+        taskManager.addSubtask(subtask3, epic2.getId());
 
         taskManager.updateSubtask(new Subtask(subtask2.getId(), "Sb2",
                 "Dsb2", State.IN_PROGRESS, epic1.getId()));

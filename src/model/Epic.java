@@ -1,40 +1,42 @@
 package model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Epic extends Task {
-    private HashMap<Integer, Subtask> epicSubtasks;
+    private ArrayList<Integer> epicSubtasksId;
 
     public Epic(String name, String description) {
         super(name, description);
+        epicSubtasksId = new ArrayList<>();
     }
 
     public Epic(int id, String name, String description) {
         super(id, name, description);
+        epicSubtasksId = new ArrayList<>();
     }
 
-    public HashMap<Integer, Subtask> getEpicSubtasks() {
-        return epicSubtasks;
+    public ArrayList<Integer> getEpicSubtasksId() {
+        return epicSubtasksId;
     }
 
-    public void setEpicSubtasks(HashMap<Integer, Subtask> epicSubtasks) {
-        this.epicSubtasks = epicSubtasks;
+    public void setEpicSubtasksId(ArrayList<Integer> epicSubtasksId) {
+        this.epicSubtasksId = epicSubtasksId;
     }
 
-    public void addSubtask(Subtask subtask) {
-        this.epicSubtasks.put(subtask.getId(), subtask);
+    public void addSubtaskId(int id) {
+        epicSubtasksId.add(id);
     }
 
-    public void removeSubtasks() {
-        epicSubtasks.clear();
+    public void removeSubtasksId() {
+        epicSubtasksId.clear();
     }
 
     @Override
     public String toString() {
         return "Epic{" +
-                "name='" + this.getName() + '\'' +
-                ", state=" + this.getState() +
-                ", subtasks.length=" + epicSubtasks.size() +
+                "name='" + this.name + '\'' +
+                ", state=" + this.state +
+                ", subtasks.length=" + epicSubtasksId.size() +
                 '}';
     }
 }
