@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private static final Map<Integer, Epic> epics = new HashMap<>();
-    private static final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private static final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
 
     private HistoryManager historyManager = Managers.getHistoryDefault();
 
@@ -171,11 +171,11 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public int generateId() {
+    private int generateId() {
         return ++taskId;
     }
 
-    public void updateEpicState(Epic epic) {
+    private void updateEpicState(Epic epic) {
         if (epic.getEpicSubtasksId().isEmpty()) {
             epic.setState(State.NEW);
             return;
