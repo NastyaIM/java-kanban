@@ -2,11 +2,12 @@ import model.Epic;
 import model.State;
 import model.Subtask;
 import model.Task;
+import service.Managers;
 import service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
         Task task1 = new Task("T1", "Dt1", State.NEW);
         Task task2 = new Task("T2", "Dt2", State.NEW);
@@ -48,6 +49,23 @@ public class Main {
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());
         System.out.println();
+
+        taskManager.getEpicById(3);
+        taskManager.getEpicById(6);
+        System.out.println(taskManager.getHistory());
+
+        taskManager.getTaskById(1);
+        System.out.println(taskManager.getHistory());
+        taskManager.getEpicById(3);
+        taskManager.getEpicById(6);
+        taskManager.getEpicById(3);
+        taskManager.getEpicById(6);
+        taskManager.getEpicById(3);
+        taskManager.getEpicById(6);
+        taskManager.getEpicById(3);
+        System.out.println(taskManager.getHistory().size());
+        taskManager.getEpicById(6);
+        System.out.println(taskManager.getHistory().size());
 
         System.out.println("Поехали!");
     }
