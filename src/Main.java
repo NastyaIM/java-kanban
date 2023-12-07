@@ -38,7 +38,7 @@ public class Main {
         System.out.println(taskManager.getSubtasks());
         System.out.println();
 
-        taskManager.removeSubtasks();
+        //taskManager.removeSubtasks();
 
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());
@@ -50,22 +50,25 @@ public class Main {
         System.out.println(taskManager.getSubtasks());
         System.out.println();
 
-        taskManager.getEpicById(3);
-        taskManager.getEpicById(6);
-        System.out.println(taskManager.getHistory());
+        taskManager.getEpicById(3); //epic1
+        taskManager.getEpicById(6); //epic2
+        System.out.println(taskManager.getHistory()); //epic1 epic2
 
-        taskManager.getTaskById(1);
+        taskManager.getTaskById(1); //task1
+        System.out.println(taskManager.getHistory()); //epic1 epic2 task1
+        System.out.println();
+        taskManager.getEpicById(3); //epic1
+        System.out.println(taskManager.getHistory()); //epic2 task1 epic1
+        taskManager.getEpicById(6); //epic2
+        System.out.println(taskManager.getHistory()); //task1 epic1 epic2
+        taskManager.getEpicById(3); //epic1
+        System.out.println(taskManager.getHistory()); //task1 epic2 epic1
+        taskManager.getSubtaskById(5); //epic2
+        System.out.println(taskManager.getHistory()); //task1 epic2 epic1 subtask2
+
+        System.out.println();
+        taskManager.removeEpicById(3);
         System.out.println(taskManager.getHistory());
-        taskManager.getEpicById(3);
-        taskManager.getEpicById(6);
-        taskManager.getEpicById(3);
-        taskManager.getEpicById(6);
-        taskManager.getEpicById(3);
-        taskManager.getEpicById(6);
-        taskManager.getEpicById(3);
-        System.out.println(taskManager.getHistory().size());
-        taskManager.getEpicById(6);
-        System.out.println(taskManager.getHistory().size());
 
         System.out.println("Поехали!");
     }
