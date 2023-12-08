@@ -8,45 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    Node head;
-    Node tail;
-
-    void linkLast(Task task) {
-        Node oldTail = tail;
-        Node newNode = new Node(oldTail, null, task);
-        tail = newNode;
-        if (oldTail == null) {
-            head = newNode;
-        } else {
-            oldTail.next = newNode;
-        }
-    }
-
-    List<Task> getTasks() {
-        List<Task> tasks = new ArrayList<>();
-        Node currentNode = head;
-        while (currentNode != null) {
-            tasks.add(currentNode.task);
-            currentNode = currentNode.next;
-        }
-        return tasks;
-    }
-
-    void removeNode(Node node) {
-        Node prev = node.prev;
-        Node next = node.next;
-
-        if (prev == null) {
-            head = next;
-            head.prev = null;
-        } else {
-            prev.next = next;
-            if (next != null) {
-                next.prev = prev;
-            }
-        }
-    }
-
+    private Node head;
+    private Node tail;
     private final Map<Integer, Node> viewsMap = new HashMap<>();
 
     @Override
@@ -68,5 +31,41 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
         removeNode(node);
+    }
+
+    private void linkLast(Task task) {
+        Node oldTail = tail;
+        Node newNode = new Node(oldTail, null, task);
+        tail = newNode;
+        if (oldTail == null) {
+            head = newNode;
+        } else {
+            oldTail.setNext(newNode);
+        }
+    }
+
+    private List<Task> getTasks() {
+        List<Task> tasks = new ArrayList<>();
+        Node currentNode = head;
+        while (currentNode != null) {
+            tasks.add(currentNode.getTask());
+            currentNode = currentNode.getNext();
+        }
+        return tasks;
+    }
+
+    private void removeNode(Node node) {
+        Node prev = node.getPrev();
+        Node next = node.getNext();
+
+        if (prev == null) {
+            head = next;
+            head.setPrev(null);
+        } else {
+            prev.setNext(next);
+            if (next != null) {
+                next.setPrev(prev);
+            }
+        }
     }
 }
