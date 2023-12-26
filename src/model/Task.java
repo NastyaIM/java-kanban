@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Task {
     protected int id;
     protected String name;
@@ -64,11 +66,25 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "name='" + name +
-                //'\'' +
-                //", description='" + description + '\'' +
-                //", state=" + state +
-                '}';
+        return this.id + ","
+                + TaskType.TASK + ","
+                + this.name + ","
+                + this.state + ","
+                + this.description + ",";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(name, task.name) &&
+                Objects.equals(description, task.description) &&
+                state == task.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, state);
     }
 }

@@ -2,17 +2,27 @@ import model.Epic;
 import model.State;
 import model.Subtask;
 import model.Task;
+import service.FileBackedTasksManager;
 import service.Managers;
 import service.TaskManager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+
 public class Main {
-    public static void main(String[] args) {
-        TaskManager taskManager = Managers.getDefault();
+    public static void main(String[] args) throws IOException {
+        TaskManager taskManager = Managers.fromFile(Paths.get("src/tasks.csv"));
+        //TaskManager taskManager = Managers.getDefault();
+
 
         Task task1 = new Task("T1", "Dt1", State.NEW);
         Task task2 = new Task("T2", "Dt2", State.NEW);
         taskManager.addTask(task1);
         taskManager.addTask(task2);
+
 
         Epic epic1 = new Epic("E1", "De1");
         taskManager.addEpic(epic1);
@@ -69,7 +79,18 @@ public class Main {
         System.out.println();
         taskManager.removeEpicById(3);
         System.out.println(taskManager.getHistory());
+        taskManager.getTaskById(1); //task1
+        System.out.println(taskManager.getHistory()); //epic2(6) task1(1)
+
+        taskManager.getSubtaskById(7); //task1
+        System.out.println(taskManager.getTasks());
+
+        taskManager.getTaskById(5); //такого нет
+        System.out.println(taskManager.getHistory()); //epic2(6) task1(1)
 
         System.out.println("Поехали!");
+
+        TaskManager taskManager1 = Managers.fromFile(Paths.get("src/tasks.csv"));
+        System.out.println(taskManager1.getHistory());
     }
 }

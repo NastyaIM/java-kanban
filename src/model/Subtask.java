@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Subtask extends Task {
     private int epicId;
 
@@ -23,10 +25,21 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
-                "name='" + this.name +
-                //'\'' +
-                //", state=" + this.state +
-                '}';
+        return this.id + ","
+                + TaskType.SUBTASK + ","
+                + this.name + ","
+                + this.state + ","
+                + this.description
+                + "," + this.epicId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals((Subtask) o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), epicId);
     }
 }
