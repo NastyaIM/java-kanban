@@ -2,7 +2,10 @@ package service;
 
 import model.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,10 +98,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void loadFromFile(Path filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath.toString()))){
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath.toString()))) {
             br.readLine();
             int id = 0;
-            while(br.ready()) {
+            while (br.ready()) {
                 String line = br.readLine();
                 if (line.isEmpty()) {
                     break;
@@ -109,16 +112,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             }
             taskId = ++id;
             String historyLine = br.readLine();
-            if (historyLine != null){
+            if (historyLine != null) {
                 List<Integer> historyIds = getHistoryFromString(historyLine);
                 for (Integer hId : historyIds) {
                     addTaskIdToHistory(hId);
                 }
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка записи");
+        } catch (Exception e) {
+            throw new ManagerSaveException("Ошибка записи", e);
         }
     }
 
@@ -136,8 +137,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             }
             bw.write("\n");
             bw.write(convertHistoryToString(historyManager));
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка сохранения");
+        } catch (Exception e) {
+            throw new ManagerSaveException("Ошибка сохранения", e);
         }
     }
 
@@ -175,11 +176,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 Epic epic = new Epic(id, name, description);
                 epic.setState(state);
                 epic.setEpicSubtasksId(new ArrayList<>());
+                for (Subtask subtask : subtasks.values()) {
+                    if (subtask.getEpicId() == epic.getId()) {
+                        epic.addSubtaskId(subtask.getId());
+                    }
+                }
                 return epic;
             case SUBTASK:
                 int epicId = Integer.parseInt(values[5]);
                 Epic subEpic = epics.get(epicId);
-                subEpic.addSubtaskId(id);
+                if (subEpic != null) {
+                    subEpic.addSubtaskId(id);
+                }
                 return new Subtask(id, name, description, state, epicId);
             default:
                 return null;
