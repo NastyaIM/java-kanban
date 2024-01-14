@@ -5,13 +5,14 @@ import model.Subtask;
 import model.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
-    void addTask(Task task);
+    int addTask(Task task);
 
-    void addEpic(Epic epic);
+    int addEpic(Epic epic);
 
-    void addSubtask(Subtask subtask, int epicId);
+    int addSubtask(Subtask subtask, int epicId);
 
     //Методы для каждого из типов задач
     //2a - Получение списка всех задач
@@ -20,6 +21,8 @@ public interface TaskManager {
     List<Epic> getEpics();
 
     List<Subtask> getSubtasks();
+
+    TreeSet<Task> getPrioritizedTasks();
 
     //2b - Удаление всех задач
     void removeTasks();
@@ -36,11 +39,11 @@ public interface TaskManager {
     Subtask getSubtaskById(int id);
 
     //2e - Обновление
-    void updateTask(Task task);
+    Task updateTask(Task task);
 
-    void updateEpic(Epic epic);
+    Epic updateEpic(Epic epic);
 
-    void updateSubtask(Subtask subtask);
+    Subtask updateSubtask(Subtask subtask);
 
     //2f - Удаление задачи по идентификатору
     void removeTaskById(int id);
