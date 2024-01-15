@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import model.Const;
 import model.Epic;
@@ -63,14 +63,14 @@ class EpicTest {
 
     @Test
     public void startTimeAndDurationDefaultIfEpicWithoutSubtasks() {
-        assertEquals(Const.defaultStartTime, epic.getStartTime());
-        assertEquals(Const.defaultDuration, epic.getDuration());
+        assertEquals(Const.DEFAULT_START_TIME, epic.getStartTime());
+        assertEquals(Const.DEFAULT_DURATION, epic.getDuration());
     }
 
     @Test
     public void startTimeAndDurationEqualSubtasksStartTimeAndDurarion() {
-        assertEquals(Const.defaultStartTime, epic.getStartTime());
-        assertEquals(Const.defaultDuration, epic.getDuration());
+        assertEquals(Const.DEFAULT_START_TIME, epic.getStartTime());
+        assertEquals(Const.DEFAULT_DURATION, epic.getDuration());
         Subtask subtask1 = new Subtask("Sb1", "Dsb1", State.NEW, Duration.ofMinutes(5),
                 LocalDateTime.of(2024, Month.JANUARY, 10, 10, 13), 0);
         Subtask subtask2 = new Subtask("Sb2", "Dsb2", State.NEW, Duration.ofMinutes(8),
@@ -86,7 +86,7 @@ class EpicTest {
         Subtask subtask2 = new Subtask("Sb2", "Dsb2", State.NEW, Duration.ofMinutes(8),
                 LocalDateTime.of(2024, Month.JANUARY, 10, 11, 13), 0);
         epic.update(List.of(subtask1, subtask2));
-        assertEquals(Const.defaultStartTime, subtask1.getStartTime());
+        assertEquals(Const.DEFAULT_START_TIME, subtask1.getStartTime());
         assertEquals(subtask2.getStartTime(), epic.getStartTime());
     }
 }

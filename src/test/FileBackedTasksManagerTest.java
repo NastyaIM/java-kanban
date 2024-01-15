@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import model.Epic;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         }
 
         taskManager = Managers.fromFile(path);
-        addCommonTasks();
+        super.beforeEach();
     }
 
     @Test

@@ -1,9 +1,10 @@
-package Test;
+package test;
 
 import model.Epic;
 import model.State;
 import model.Subtask;
 import model.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.TaskManager;
 
@@ -25,6 +26,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     int subtask1Id;
     Subtask subtask2;
     int subtask2Id;
+
+    @BeforeEach
+    public void beforeEach() {
+        addCommonTasks();
+    }
 
     @Test
     public void addTask() {
@@ -91,7 +97,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getPrioritizedTasks() {
-        task = taskManager.updateTask(new Task(taskId, "T1","Dt1", State.NEW,
+        task = taskManager.updateTask(new Task(taskId, "T1", "Dt1", State.NEW,
                 Duration.ofMinutes(5), LocalDateTime.of(2024, Month.JANUARY, 8, 10, 11)));
         subtask2 = taskManager.updateSubtask(new Subtask(subtask2Id, "Sb2", "Dsb2",
                 State.NEW, Duration.ofMinutes(8),
@@ -105,6 +111,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.removeTasks();
         assertEquals(List.of(subtask1), new ArrayList<>(taskManager.getPrioritizedTasks()));
 
+        System.out.println(taskManager.getTasks());
         taskManager.addTask(task);
         epic = taskManager.updateEpic(new Epic(epicId, "NewEpic", "NewDe1"));
         assertEquals(List.of(task), new ArrayList<>(taskManager.getPrioritizedTasks()));

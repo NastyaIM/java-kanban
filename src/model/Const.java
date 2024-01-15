@@ -2,12 +2,11 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 public class Const {
-    public static final Duration defaultDuration = Duration.ZERO;
-    public static final LocalDateTime defaultStartTime =
-            LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC);
-    public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    public static final Duration DEFAULT_DURATION = Duration.ZERO;
+    public static final LocalDateTime DEFAULT_START_TIME =
+            LocalDateTime.of(2100, 1, 1, 0, 0);
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 }

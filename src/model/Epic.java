@@ -36,31 +36,27 @@ public class Epic extends Task {
     }
 
     public void update(List<Subtask> subtasks) {
-        if (subtasks.isEmpty()) {
-            this.state = State.NEW;
-            this.startTime = Const.defaultStartTime;
-            this.duration = Const.defaultDuration;
-        } else {
-            Duration duration = subtasks.get(0).duration;
-            LocalDateTime startTime = subtasks.get(0).startTime;
-            State state = subtasks.get(0).state;
-            for (int i = 1; i < subtasks.size(); i++) {
-                Subtask subtask = subtasks.get(i);
-                if (subtask.duration != Const.defaultDuration)
-                    duration = duration.plus(subtask.duration);
-                if (subtask.startTime != Const.defaultStartTime
-                        && (subtask.startTime.isBefore(startTime) || startTime == Const.defaultStartTime)) {
+        Duration duration = Const.DEFAULT_DURATION;
+        LocalDateTime startTime = Const.DEFAULT_START_TIME;
+        State state = null;
+        if (!subtasks.isEmpty()) {
+            for (Subtask subtask : subtasks) {
+                duration = duration.plus(subtask.duration);
+                if (subtask.startTime.isBefore(startTime)) {
                     startTime = subtask.startTime;
                 }
                 state = changeState(state, subtask);
             }
-            this.state = state;
-            this.duration = duration;
-            this.startTime = startTime;
         }
+        this.state = state == null ? State.NEW : state;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     private State changeState(State currentState, Subtask subtask) {
+        if (currentState == null) {
+            return subtask.state;
+        }
         if (subtask.state == State.DONE && currentState == State.DONE) {
             return State.DONE;
         }
@@ -78,7 +74,7 @@ public class Epic extends Task {
                 + this.state + ","
                 + this.description + ","
                 + this.duration + ","
-                + this.startTime.format(Const.dateTimeFormatter) + ",";
+                + this.startTime.format(Const.DATE_TIME_FORMATTER) + ",";
     }
 
     @Override

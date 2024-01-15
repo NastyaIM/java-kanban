@@ -9,8 +9,8 @@ public class Task implements Comparable<Task> {
     protected String name;
     protected String description;
     protected State state;
-    protected Duration duration = Const.defaultDuration;
-    protected LocalDateTime startTime = Const.defaultStartTime;
+    protected Duration duration = Const.DEFAULT_DURATION;
+    protected LocalDateTime startTime = Const.DEFAULT_START_TIME;
 
     //для эпика
     public Task(String name, String description) {
@@ -116,7 +116,7 @@ public class Task implements Comparable<Task> {
                 + this.state + ","
                 + this.description + ","
                 + this.duration + ","
-                + this.startTime.format(Const.dateTimeFormatter) + ",";
+                + this.startTime.format(Const.DATE_TIME_FORMATTER) + ",";
     }
 
     @Override
@@ -138,10 +138,10 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(Task o) {
-        if (o.startTime.isEqual(Const.defaultStartTime))
-            return -1;
-        if (this.startTime.isEqual(Const.defaultStartTime))
+        if (this.startTime.isEqual(Const.DEFAULT_START_TIME))
             return 1;
+        if (o.startTime.isEqual(Const.DEFAULT_START_TIME))
+            return -1;
         if (this.startTime.isBefore(o.startTime))
             return -1;
         if (o.startTime.isBefore(this.startTime))

@@ -232,7 +232,7 @@ public class InMemoryTaskManager implements TaskManager {
                 return false;
             }
             if (task.getStartTime().isAfter(startTime) && (task.getEndTime().isAfter(endTime))
-                    && task.getEndTime().isAfter(endTime)) {
+                    && task.getStartTime().isBefore(endTime)) {
                 return false;
             }
             if (task.getStartTime().isBefore(startTime) && (task.getEndTime().isBefore(endTime))
@@ -244,7 +244,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private boolean checkFreeTime(Task task) {
-        if (!task.getStartTime().equals(Const.defaultStartTime)) {
+        if (!task.getStartTime().equals(Const.DEFAULT_START_TIME)) {
             boolean isFreeTime = isFreeTime(task.getStartTime(), task.getEndTime());
             if (!isFreeTime) {
                 System.out.println("Время занято");
