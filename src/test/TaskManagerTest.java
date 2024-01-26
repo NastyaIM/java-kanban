@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.TaskManager;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -17,18 +18,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TaskManagerTest<T extends TaskManager> {
-    T taskManager;
-    Task task;
-    int taskId;
-    Epic epic;
-    int epicId;
-    Subtask subtask1;
-    int subtask1Id;
-    Subtask subtask2;
-    int subtask2Id;
+    protected T taskManager;
+    protected Task task;
+    protected int taskId;
+    protected Epic epic;
+    protected int epicId;
+    protected Subtask subtask1;
+    protected int subtask1Id;
+    protected Subtask subtask2;
+    protected int subtask2Id;
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws IOException {
         addCommonTasks();
     }
 
@@ -101,7 +102,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                 Duration.ofMinutes(5), LocalDateTime.of(2024, Month.JANUARY, 8, 10, 11)));
         subtask2 = taskManager.updateSubtask(new Subtask(subtask2Id, "Sb2", "Dsb2",
                 State.NEW, Duration.ofMinutes(8),
-                LocalDateTime.of(2024, Month.JANUARY, 10, 11, 13), epicId));
+                LocalDateTime.of(2024, Month.JANUARY, 10, 11, 13)));
 
         assertEquals(List.of(task, subtask2, subtask1), new ArrayList<>(taskManager.getPrioritizedTasks()));
 
@@ -237,7 +238,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void updateSubtask() {
         Subtask savedSubtask = taskManager.getSubtaskById(subtask1Id);
         subtask1 = taskManager.updateSubtask(new Subtask(subtask1Id, "NewSubtask1",
-                "NewDs1", State.IN_PROGRESS, epicId));
+                "NewDs1", State.IN_PROGRESS));
         Subtask updatedSubtask = taskManager.getSubtaskById(subtask1Id);
 
         assertNotEquals(savedSubtask, updatedSubtask);
@@ -285,8 +286,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskId = taskManager.addTask(task);
         epic = new Epic("E1", "De1");
         epicId = taskManager.addEpic(epic);
-        subtask1 = new Subtask("Sb1", "Dsb1", State.NEW, epicId);
-        subtask2 = new Subtask("Sb2", "Dsb2", State.NEW, epicId);
+        subtask1 = new Subtask("Sb1", "Dsb1", State.NEW);
+        subtask2 = new Subtask("Sb2", "Dsb2", State.NEW);
         subtask1Id = taskManager.addSubtask(subtask1, epicId);
         subtask2Id = taskManager.addSubtask(subtask2, epicId);
     }

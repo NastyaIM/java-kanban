@@ -5,14 +5,14 @@ import model.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.HistoryManager;
+import service.history.HistoryManager;
 import service.Managers;
 
 import java.util.List;
 
 class HistoryManagerTest {
-    HistoryManager historyManager;
-    Task task;
+    private HistoryManager historyManager;
+    private Task task;
 
     @BeforeEach
     public void beforeEach() {

@@ -1,6 +1,9 @@
-package service;
+package service.file;
 
 import model.*;
+import service.history.HistoryManager;
+import service.InMemoryTaskManager;
+import service.ManagerSaveException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -155,7 +158,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return history;
     }
 
-    public void loadFromFile(Path filePath) {
+    public void load() {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath.toString()))) {
             br.readLine();
             int id = 0;
@@ -181,7 +184,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void save() {
+    public void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath.toString()))) {
             bw.write("id,type,name,status,description,duration,start_time,epic\n");
             for (Task task : tasks.values()) {
@@ -200,7 +203,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void addTaskToTaskList(Task task) {
+    protected void addTaskToTaskList(Task task) {
         if (task instanceof Subtask) {
             subtasks.put(task.getId(), (Subtask) task);
             prioritizedTasks.add(task);
@@ -212,7 +215,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void addTaskIdToHistory(Integer taskId) {
+    protected void addTaskIdToHistory(Integer taskId) {
         if (tasks.get(taskId) != null) {
             historyManager.add(tasks.get(taskId));
         } else if (epics.get(taskId) != null) {
@@ -247,12 +250,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
                 return epic;
             case SUBTASK:
+                Subtask subtask = new Subtask(id, name, description, state, duration, startTime);
                 int epicId = Integer.parseInt(values[7]);
+                subtask.setEpicId(epicId);
                 Epic subEpic = epics.get(epicId);
                 if (subEpic != null) {
                     subEpic.addSubtaskId(id);
                 }
-                return new Subtask(id, name, description, state, duration, startTime, epicId);
+                return subtask;
             default:
                 return null;
         }

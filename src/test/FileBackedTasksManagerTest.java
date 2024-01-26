@@ -3,7 +3,7 @@ package test;
 import model.Epic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.FileBackedTasksManager;
+import service.file.FileBackedTasksManager;
 import service.Managers;
 
 import java.io.IOException;
@@ -15,11 +15,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
-
-    Path path;
+    private Path path;
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws IOException {
         path = Paths.get("src/tasks.csv");
 
         try {

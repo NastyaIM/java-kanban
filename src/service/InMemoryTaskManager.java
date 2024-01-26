@@ -4,14 +4,15 @@ import model.Const;
 import model.Epic;
 import model.Subtask;
 import model.Task;
+import service.history.HistoryManager;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected final Map<Integer, Epic> epics = new HashMap<>();
-    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
-    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected Map<Integer, Task> tasks = new HashMap<>();
     protected TreeSet<Task> prioritizedTasks = new TreeSet<>();
     protected HistoryManager historyManager = Managers.getHistoryDefault();
     protected int taskId = 1;
@@ -43,6 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         if (epic == null) return -1;
         subtask.setId(generateId());
+        subtask.setEpicId(epicId);
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId());
         epic.update(getEpicSubtasksById(epic.getId()));
@@ -152,6 +154,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask updateSubtask(Subtask subtask) {
         if (subtasks.containsValue(subtask)) return null;
         removeTaskFromPrioritizedTasks(subtasks.get(subtask.getId()));
+        subtask.setEpicId(subtasks.get(subtask.getId()).getEpicId());
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
         epic.update(getEpicSubtasksById(epic.getId()));
