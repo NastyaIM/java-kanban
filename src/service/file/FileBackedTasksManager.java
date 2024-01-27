@@ -5,11 +5,9 @@ import service.history.HistoryManager;
 import service.InMemoryTaskManager;
 import service.ManagerSaveException;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +17,9 @@ import java.util.List;
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final Path filePath;
 
+    public FileBackedTasksManager() {
+        filePath = Paths.get("src/tasks.csv");
+    }
     public FileBackedTasksManager(Path path) {
         this.filePath = path;
     }

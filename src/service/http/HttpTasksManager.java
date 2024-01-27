@@ -18,7 +18,6 @@ public class HttpTasksManager extends FileBackedTasksManager {
     private final KVTaskClient client;
 
     public HttpTasksManager(String url, boolean load) {
-        super(null);
         client = new KVTaskClient(url);
         if (load) {
             load();
